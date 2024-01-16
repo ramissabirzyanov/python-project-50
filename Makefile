@@ -1,11 +1,11 @@
 lint:
-	poetry run flake8 gendiff_package
+		poetry run flake8 gendiff_package
 
 test:
-	poetry run pytest
+		poetry run pytest
 
 install:
-	poetry install
+		poetry install
 
 test-coverage:
-	poetry run pytest --cov=gendiff_package --cov-report xml
+		poetry run pytest --cov=gendiff_package --cov-report xml
