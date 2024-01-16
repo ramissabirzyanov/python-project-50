@@ -1,9 +1,7 @@
-lint:
-		poetry run flake8 gendiff_package
-
-test:
+check:
 		poetry run pytest
-
+		poetry run flake8 gendiff_package
+		
 install:
 		poetry install
 
