@@ -1,4 +1,6 @@
 import argparse
+import yaml
+import json
 
 
 def parsing():
@@ -9,3 +11,12 @@ def parsing():
     parser.add_argument('-f', '--format', help='set format of output')
     args = parser.parse_args()
     return args.first_file, args.second_file
+
+
+def read_file(path_to_file):
+    if path_to_file.endswith(('.yaml', '.yml')):
+        with open(path_to_file) as file:
+            return yaml.load(file, Loader=yaml.FullLoader)
+    elif path_to_file.endswith('.json'):
+        with open(path_to_file) as file:
+            return json.load(file)
