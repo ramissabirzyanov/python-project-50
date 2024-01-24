@@ -1,39 +1,27 @@
 from gendiff_package.parsing import read_file
-
-
-def bool_to_str(dict):
-    for k, v in dict.items():
-        if v is True:
-            dict[k] = 'true'
-        elif v is False:
-            dict[k] = 'false'
-        elif v is None:
-            dict[k] = 'null'
-    return dict
-
-
+#from gendiff_package.formatter import make_str
+data_file1 = read_file("tests/fixtures/tree1.json")
+data_file2 = read_file("tests/fixtures/tree2.json")
 def make_diff(data_file1, data_file2):
-    diff = {}
-    for key1 in sorted(data_file1):
-        if key1 in data_file2:
-            if data_file1[key1] == data_file2[key1]:
-                diff['    ' + key1] = data_file1[key1]
-            else:
-                diff['  - ' + key1] = data_file1[key1]
-                diff['  + ' + key1] = data_file2[key1]
+    nodes = []
+    keys = data_file1.keys()|data_file2.keys()  #set
+    for key in sorted(keys):
+        if key not in data_file1:
+            nodes.append({"change": "+", "key": key, "value": data_file2[key]})
+        elif key not in data_file2:
+            nodes.append({"change": "-", "key": key, "value": data_file1[key]})
+        elif isinstance(data_file1[key], dict) and isinstance(data_file2[key], dict):
+            nodes.append({"key": key, "children":make_diff(data_file1[key], data_file2[key])})
+        elif data_file1[key] == data_file2[key]:
+            nodes.append({"change": " ", "key": key, "value": data_file1[key]})
         else:
-            diff['  - ' + key1] = data_file1[key1]
-    for key2 in sorted(data_file2):
-        if key2 not in data_file1:
-            diff['  + ' + key2] = data_file2[key2]
-    return diff
-
+            nodes.append({"change": "-", "key": key, "value1": data_file1[key]})
+            nodes.append({"change": "+", "key": key, "value2": data_file2[key]})
+    return nodes
+print(make_diff(data_file1, data_file2))
 
 def generate_diff(path_to_file1, path_to_file2):
     data_file1 = read_file(path_to_file1)  # dict
     data_file2 = read_file(path_to_file2)  # dict
     diff = make_diff(data_file1, data_file2)
-    diff = bool_to_str(diff)
-    return ("{\n"
-            + "\n".join([f'{key}: {value}' for key, value in diff.items()])
-            + "\n}")
+    return make_str(diff)
