@@ -1,7 +1,7 @@
 from gendiff_package.parsing import read_file
-#from gendiff_package.formatter import make_str
-data_file1 = read_file("tests/fixtures/tree1.json")
-data_file2 = read_file("tests/fixtures/tree2.json")
+from gendiff_package.formatter import to_stylish
+#data_file1 = read_file("tests/fixtures/tree1.json")
+#data_file2 = read_file("tests/fixtures/tree2.json")
 def make_diff(data_file1, data_file2):
     nodes = []
     keys = data_file1.keys()|data_file2.keys()  #set
@@ -18,10 +18,10 @@ def make_diff(data_file1, data_file2):
             nodes.append({"change": "-", "key": key, "value1": data_file1[key]})
             nodes.append({"change": "+", "key": key, "value2": data_file2[key]})
     return nodes
-print(make_diff(data_file1, data_file2))
+#print(make_diff(data_file1, data_file2))
 
 def generate_diff(path_to_file1, path_to_file2):
     data_file1 = read_file(path_to_file1)  # dict
     data_file2 = read_file(path_to_file2)  # dict
     diff = make_diff(data_file1, data_file2)
-    return make_str(diff)
+    return to_stylish(diff)

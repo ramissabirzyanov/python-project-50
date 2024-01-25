@@ -1,4 +1,3 @@
-#INDENT = " "
 def get_children(d):
     return d.get('children')
 def get_key(d):
@@ -12,45 +11,32 @@ def get_value(d):
         return d.get('value1')
     elif 'value2' in d:
         return d.get('value2')
-    
 
-def to_str(v, amount_indent=2):
-    if isinstance(v, bool):
-        return str(v).lower()
-    elif v is None:
+
+def to_str(obj, amount_indent=1):
+    if isinstance(obj, bool):
+        return str(obj).lower()
+    elif obj is None:
         return 'null'
-    elif isinstance(v, int):
-        return str(v)
-    elif isinstance(v, dict):
-        indent = " " * (8 + amount_indent)
+    elif isinstance(obj, int):
+        return str(obj)
+    elif isinstance(obj, dict):
+        indent = "  " * (5 + amount_indent)
+        close_indent = "  " * (amount_indent + 3)
         nodes = []
-        for key, value in v.items():
-            new_value =  to_str(value, amount_indent=6)
-            nodes.append(f"{indent}{'  '}{key}: {new_value}")
-        return "{\n" + "\n".join(nodes) + "\n" + f"{indent}" + "}"
-    return v 
+        for key, value in obj.items():
+            new_value =  to_str(value, amount_indent)
+            nodes.append(f"{indent}{key}: {new_value}")
+            result = "\n".join(nodes)
+        return f"{{\n{result}\n{close_indent}}}"            
+    return obj
 
-node = [{'key': 'common', 'children': [
-    {'change': '+', 'key': 'follow', 'value': False}, 
-    {'change': ' ', 'key': 'setting1', 'value': 'Value 1'}, 
-    {'change': '-', 'key': 'setting2', 'value': 200}, 
-    {'change': '-', 'key': 'setting3', 'value1': True}, 
-    {'change': '+', 'key': 'setting3', 'value2': None}, 
-    {'change': '+', 'key': 'setting4', 'value': 'blah blah'}, 
-    {'change': '+', 'key': 'setting5', 'value': {'key5': 'value5'}}, 
-    {'key': 'setting6', 'children': [
-        {'key': 'doge', 'children': [
-            {'change': '-', 'key': 'wow', 'value1': ''}, 
-            {'change': '+', 'key': 'wow', 'value2': 'so much'}]}, 
-            {'change': ' ', 'key': 'key', 'value': 'value'}, 
-            {'change': '+', 'key': 'ops', 'value': 'vops'}]}]}]
-def to_stylish(node, indent= "  "):
+def to_stylish(node, amount_indent=1):
+    indent = "  " * amount_indent
+    close_indent = "  " * (amount_indent - 1)
     result = []
     for item in node:
-        if get_change(item) is None:
-            result_str = f"{indent}{get_key(item)}:" + " {"
-            result.append(result_str)
-        elif get_change(item) == '+':
+        if get_change(item) == '+':
             result_str = f"{indent}{'+ '}{get_key(item)}: {to_str(get_value(item))}"
             result.append(result_str)
         elif get_change(item) == '-':
@@ -61,8 +47,9 @@ def to_stylish(node, indent= "  "):
             result.append(result_str)
         if 'children' in item:
             children = get_children(item)
-            indent = indent * 2
-            result.append(to_stylish(children, indent) + "\n}")
-    return "\n".join(result)
-print(to_stylish(node))
+            result_str = (to_stylish(children, amount_indent + 2))
+            result.append(f"{indent}{'  '}{get_key(item)}: {result_str}")
+        stylish = "\n".join(result)
+    return f"{{\n{stylish}\n{close_indent}}}"    
+
       
