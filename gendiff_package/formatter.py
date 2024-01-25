@@ -11,7 +11,7 @@ def get_value(d):
         return d.get('value1')
     elif 'value2' in d:
         return d.get('value2')
-node = [{'change': '-', 'key': 'group2', 'value': {'abc': 12345, 'deep': {'id': 45}}}, {'change': '+', 'key': 'group3', 'value': {'deep': {'id': {'number': 45}}, 'fee': 100500}}]
+
 
 def to_str(obj, amount_indent=2):
     if isinstance(obj, bool):
@@ -24,7 +24,7 @@ def to_str(obj, amount_indent=2):
         nodes = []
         for key, value in obj.items():
             new_value =  to_str(value, amount_indent + 2)
-            indent = "  " * (2 + amount_indent)
+            indent = "  " * (amount_indent + 2)
             close_indent = "  " * (amount_indent)
             nodes.append(f"{indent}{key}: {new_value}")
             result = "\n".join(nodes)
@@ -32,8 +32,8 @@ def to_str(obj, amount_indent=2):
     return obj
 
 def to_stylish(node, amount_indent=1):
-    indent = "  " * amount_indent
-    close_indent = "  " * (amount_indent-1)
+    indent = "  " * (amount_indent)
+    close_indent = "  " * (amount_indent - 1)
     result = []
     for item in node:
         if get_change(item) == '+':
@@ -50,6 +50,5 @@ def to_stylish(node, amount_indent=1):
             result_str = (to_stylish(children, amount_indent + 2))
             result.append(f"{indent}{'  '}{get_key(item)}: {result_str}")
         stylish = "\n".join(result)
-    return f"{{\n{stylish}\n{close_indent}}}"    
-print(to_stylish(node))
+    return f"{{\n{stylish}\n{close_indent}}}"
       
