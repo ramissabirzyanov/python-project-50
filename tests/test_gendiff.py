@@ -11,7 +11,12 @@ def test_gendiff_yaml():
     expected = open("tests/fixtures/expected_plain.txt").read()
     assert diff == expected
 
-def test_gendiff_tree():
+def test_gendiff_tree_json():
     diff = generate_diff("tests/fixtures/tree1.json", "tests/fixtures/tree2.json")
+    expected = open("tests/fixtures/expected_tree.txt").read()
+    assert diff == expected
+
+def test_gendiff_tree_yaml():
+    diff = generate_diff("tests/fixtures/tree1.yaml", "tests/fixtures/tree2.yaml")
     expected = open("tests/fixtures/expected_tree.txt").read()
     assert diff == expected
