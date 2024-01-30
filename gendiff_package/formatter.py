@@ -12,7 +12,7 @@ def get_value(d):
     elif 'value2' in d:
         return d.get('value2')
 
-def to_str(obj, amount_indent=4):
+def to_str(obj, depth):
     if isinstance(obj, bool):
         return str(obj).lower()
     elif obj is None:
@@ -22,36 +22,36 @@ def to_str(obj, amount_indent=4):
     elif isinstance(obj, dict):
         nodes = []
         for key, value in obj.items():
-            new_value =  to_str(value, amount_indent + 4)
-            indent = " " * (amount_indent + 4)
-            close_indent = " " * (amount_indent)
-            nodes.append(f"{indent}{key}: {new_value}")
+            indent = make_indent(depth)[0]
+            close_indent = make_indent(depth)[1]
+            nodes.append(f"{indent}{'  '}{key}: {to_str(value, depth + 1)}")
             result = "\n".join(nodes)
-        return f"{{\n{result}\n{close_indent}}}"            
+        return f"{{\n{result}\n{close_indent}}}"
     return obj
 
-def to_stylish(node, amount_indent=2):
-    indent = " " * (amount_indent)
-    closing_indent = " " * (amount_indent - 2)
+def to_stylish(node, depth=1):
     result = []
     for item in node:
-        if get_change(item) == '+':
-            result_str = f"{indent}{'+ '}{get_key(item)}: {to_str(get_value(item))}"
-            result.append(result_str)
-        elif get_change(item) == '-':
-            result_str = f"{indent}{'- '}{get_key(item)}: {to_str(get_value(item))}"
-            result.append(result_str)
-        elif get_change(item) == ' ':
-            result_str = f"{indent}{'  '}{get_key(item)}: {to_str(get_value(item))}"
-            result.append(result_str)
+        indent = make_indent(depth)[0]
+        closing_indent = make_indent(depth)[1]
         if 'children' in item:
             children = get_children(item)
-            result_str = (to_stylish(children, amount_indent + 4))
+            result_str = to_stylish(children, depth + 1)
             result.append(f"{indent}{'  '}{get_key(item)}: {result_str}")
+        if get_change(item) == '+':
+            result_str = f"{indent}{'+ '}{get_key(item)}: {to_str(get_value(item), depth + 1)}"
+            result.append(result_str)
+        elif get_change(item) == '-':
+            result_str = f"{indent}{'- '}{get_key(item)}: {to_str(get_value(item), depth + 1)}"
+            result.append(result_str)
+        elif get_change(item) == ' ':
+            result_str = f"{indent}{'  '}{get_key(item)}: {to_str(get_value(item), depth + 1)}"
+            result.append(result_str)
         stylish = "\n".join(result)
     return f"{{\n{stylish}\n{closing_indent}}}"
 
-def make_indent(depth=1, amount_spaces=4):
+def make_indent(depth, amount_spaces=4):
     indent = " " * (depth*amount_spaces - 2)
-    return indent
+    closing_indent = " " * (depth*amount_spaces -4)
+    return indent, closing_indent
       
