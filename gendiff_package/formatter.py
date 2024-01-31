@@ -1,9 +1,15 @@
 def get_children(d):
     return d.get('children')
+
+
 def get_key(d):
     return d.get('key')
+
+
 def get_change(d):
     return d.get('change')
+
+
 def get_value(d):
     if 'value' in d:
         return d.get('value')
@@ -11,6 +17,7 @@ def get_value(d):
         return d.get('value1')
     elif 'value2' in d:
         return d.get('value2')
+
 
 def to_str(obj, depth):
     if isinstance(obj, bool):
@@ -28,6 +35,7 @@ def to_str(obj, depth):
             result = "\n".join(nodes)
         return f"{{\n{result}\n{close_indent}}}"
     return obj
+
 
 def to_stylish(node, depth=1):
     result = []
@@ -50,8 +58,8 @@ def to_stylish(node, depth=1):
         stylish = "\n".join(result)
     return f"{{\n{stylish}\n{closing_indent}}}"
 
+
 def make_indent(depth, amount_spaces=4):
-    indent = " " * (depth*amount_spaces - 2)
-    closing_indent = " " * (depth*amount_spaces -4)
+    indent = " " * (depth * amount_spaces - 2)
+    closing_indent = " " * (depth * amount_spaces - 4)
     return indent, closing_indent
-      
