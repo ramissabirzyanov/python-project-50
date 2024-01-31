@@ -20,7 +20,7 @@ def make_diff(data_file1, data_file2):
     return nodes
 
 
-def generate_diff(path_to_file1, path_to_file2, format='stylish'):
+def generate_diff(path_to_file1, path_to_file2, format):
     data_file1 = read_file(path_to_file1)  # dict
     data_file2 = read_file(path_to_file2)  # dict
     diff = make_diff(data_file1, data_file2)

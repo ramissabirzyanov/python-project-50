@@ -6,8 +6,8 @@ from gendiff_package.gendiff import generate_diff
 
 
 def main():
-    file1, file2 = parsing()
-    print(generate_diff(file1, file2))
+    file1, file2, format = parsing()
+    print(generate_diff(file1, file2, format))
 
 
 if __name__ == '__main__':
