@@ -11,15 +11,16 @@ def get_change(d):
 
 
 def get_value(d):
-    if 'value' in d:
-        return d.get('value')
-    elif 'value1' in d:
-        return d.get('value1')
-    elif 'value2' in d:
-        return d.get('value2')
+    return d.get('value')
 
 
-def to_str(obj, depth):
+def make_indent(depth, amount_spaces=4):
+    indent = " " * (depth * amount_spaces - 2)
+    closing_indent = " " * (depth * amount_spaces - 4)
+    return indent, closing_indent
+
+
+def to_str(obj, depth=1):
     if isinstance(obj, bool):
         return str(obj).lower()
     elif obj is None:
@@ -37,29 +38,33 @@ def to_str(obj, depth):
     return obj
 
 
+CHANGES = {'+': '+ ',
+           '-': '- ',
+           ' ': '  ',
+           '-/+': ('- ', '+ ')
+           }
+
+
 def to_stylish(node, depth=1):
     result = []
     for item in node:
         indent = make_indent(depth)[0]
         closing_indent = make_indent(depth)[1]
+        change = get_change(item)
+        key = get_key(item)
+        value = get_value(item)
+        if change in CHANGES:
+            if change == '-/+':
+                result_str1 = f"{indent}{CHANGES.get(change)[0]}{key}: {to_str(value[0], depth + 1)}"
+                result_str2 = f"{indent}{CHANGES.get(change)[1]}{key}: {to_str(value[1], depth + 1)}"
+                result.append(result_str1)
+                result.append(result_str2)
+            else:
+                result_str = f"{indent}{CHANGES.get(change)}{key}: {to_str(value, depth + 1)}"
+                result.append(result_str)
         if 'children' in item:
             children = get_children(item)
             result_str = to_stylish(children, depth + 1)
-            result.append(f"{indent}{'  '}{get_key(item)}: {result_str}")
-        if get_change(item) == '+':
-            result_str = f"{indent}{'+ '}{get_key(item)}: {to_str(get_value(item), depth + 1)}"
-            result.append(result_str)
-        elif get_change(item) == '-':
-            result_str = f"{indent}{'- '}{get_key(item)}: {to_str(get_value(item), depth + 1)}"
-            result.append(result_str)
-        elif get_change(item) == ' ':
-            result_str = f"{indent}{'  '}{get_key(item)}: {to_str(get_value(item), depth + 1)}"
-            result.append(result_str)
+            result.append(f"{indent}{'  '}{key}: {result_str}")
         stylish = "\n".join(result)
     return f"{{\n{stylish}\n{closing_indent}}}"
-
-
-def make_indent(depth, amount_spaces=4):
-    indent = " " * (depth * amount_spaces - 2)
-    closing_indent = " " * (depth * amount_spaces - 4)
-    return indent, closing_indent
