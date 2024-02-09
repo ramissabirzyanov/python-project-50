@@ -1,5 +1,4 @@
 from gendiff_package.gendiff import generate_diff
-import json
 
 
 def test_gendiff_tree_json():
