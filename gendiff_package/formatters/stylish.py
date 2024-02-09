@@ -55,12 +55,15 @@ def to_stylish(node, depth=1):
         value = get_value(item)
         if change in CHANGES:
             if change == '-/+':
-                result_str1 = f"{indent}{CHANGES.get(change)[0]}{key}: {to_str(value[0], depth + 1)}"
-                result_str2 = f"{indent}{CHANGES.get(change)[1]}{key}: {to_str(value[1], depth + 1)}"
+                result_str1 = (f"{indent}{CHANGES.get(change)[0]}{key}: "
+                              f"{to_str(value[0], depth + 1)}")
+                result_str2 = (f"{indent}{CHANGES.get(change)[1]}{key}: "
+                               f"{to_str(value[1], depth + 1)}")
                 result.append(result_str1)
                 result.append(result_str2)
             else:
-                result_str = f"{indent}{CHANGES.get(change)}{key}: {to_str(value, depth + 1)}"
+                result_str = (f"{indent}{CHANGES.get(change)}{key}: "
+                              f"{to_str(value, depth + 1)}")
                 result.append(result_str)
         if 'children' in item:
             children = get_children(item)
