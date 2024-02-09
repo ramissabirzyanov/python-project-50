@@ -4,36 +4,36 @@ from gendiff_package.formatters.plain import to_plain
 from gendiff_package.formatters.json_format import to_json
 
 
-def make_diff(data_f1, data_f2):
+def make_diff(data_file1, data_file2):
     nodes = []
-    keys = data_f1.keys() | data_f2.keys()  # set
+    keys = data_file1.keys() | data_file2.keys()  # set
     for key in sorted(keys):
-        if key not in data_f1:
+        if key not in data_file1:
             nodes.append({"change": "+",
                           "key": key,
-                          "value": data_f2[key]})
-        elif key not in data_f2:
+                          "value": data_file2[key]})
+        elif key not in data_file2:
             nodes.append({"change": "-",
                           "key": key,
-                          "value": data_f1[key]})
-        elif isinstance(data_f1[key], dict) and isinstance(data_f2[key], dict):
+                          "value": data_file1[key]})
+        elif isinstance(data_file1[key], dict) and isinstance(data_file2[key], dict):
             nodes.append({"key": key,
-                          "children": make_diff(data_f1[key], data_f2[key])})
-        elif data_f1[key] == data_f2[key]:
+                          "children": make_diff(data_file1[key], data_file2[key])})
+        elif data_file1[key] == data_file2[key]:
             nodes.append({"change": " ",
                           "key": key,
-                          "value": data_f1[key]})
+                          "value": data_file1[key]})
         else:
             nodes.append({"change": "-/+",
                           "key": key,
-                          "value": (data_f1[key], data_f2[key])})
+                          "value": (data_file1[key], data_file2[key])})
     return nodes
 
 
 def generate_diff(path_to_file1, path_to_file2, format):
-    data_f1 = read_file(path_to_file1)  # dict
-    data_f2 = read_file(path_to_file2)  # dict
-    diff = make_diff(data_f1, data_f2)
+    data_file1 = read_file(path_to_file1)  # dict
+    data_file2 = read_file(path_to_file2)  # dict
+    diff = make_diff(data_file1, data_file2)
     if format == 'stylish':
         return to_stylish(diff)
     elif format == 'plain':

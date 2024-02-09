@@ -56,7 +56,7 @@ def to_stylish(node, depth=1):
         if change in CHANGES:
             if change == '-/+':
                 result_str1 = (f"{indent}{CHANGES.get(change)[0]}{key}: "
-                              f"{to_str(value[0], depth + 1)}")
+                               f"{to_str(value[0], depth + 1)}")
                 result_str2 = (f"{indent}{CHANGES.get(change)[1]}{key}: "
                                f"{to_str(value[1], depth + 1)}")
                 result.append(result_str1)
