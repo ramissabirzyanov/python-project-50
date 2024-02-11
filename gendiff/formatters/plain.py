@@ -1,5 +1,5 @@
-from gendiff_package.formatters.stylish import get_key, get_value, to_str
-from gendiff_package.formatters.stylish import get_change, get_children
+from gendiff.formatters.stylish import get_key, get_value, to_str
+from gendiff.formatters.stylish import get_change, get_children
 
 
 def to_complex_value_or_str(value):

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 
-from gendiff_package.parsing import parsing
-from gendiff_package.gendiff import generate_diff
+from gendiff.parsing import parsing
+from gendiff.make_diff import generate_diff
 
 
 def main():
