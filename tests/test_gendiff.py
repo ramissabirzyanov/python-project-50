@@ -1,4 +1,5 @@
 import pytest
+import os
 from gendiff import generate_diff
 
 
@@ -12,10 +13,12 @@ def formats(request):
     
 
 @pytest.fixture
-def paths_of_trees():
+def get_path():
     return ("tests/fixtures/tree1.json", "tests/fixtures/tree2.json")
 
 
-def test_gendiff(paths_of_trees, formats):
+def test_gendiff(get_path, formats):
+    file1 = get_path[0]
+    file2 = get_path[1]
     format, expected = formats
-    assert generate_diff(paths_of_trees[0], paths_of_trees[1], format) == expected
+    assert generate_diff(file1, file2, format) == expected
