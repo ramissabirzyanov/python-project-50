@@ -8,9 +8,9 @@ This application shows difference between two files.
 The application supports json and yaml files.
 User can also set the output format of changes.
 Supported output formats:
-- stylish (default)
-- plain
-- json
+- stylish (detailed output, intalled be default)
+- plain (text output)
+- json (dictionary)
 
 For help just type in shell:
 > $ gendiff -h
