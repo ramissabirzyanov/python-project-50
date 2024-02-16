@@ -5,7 +5,7 @@
 
 
 This application shows difference between two files.
-The application only supports json and yaml files.
+The application supports json and yaml files.
 User can also set the output format of changes.
 Supported output formats:
 - stylish (default)
