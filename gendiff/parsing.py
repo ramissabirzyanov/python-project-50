@@ -15,10 +15,15 @@ def parsing():
     return args.first_file, args.second_file, args.format
 
 
+def get_extension(obj):
+    _, extension = os.path.splitext(obj)
+    return extension[1:]
+
+
 def read_file(path_to_file):
     with open(path_to_file) as file:
-        _, extension = os.path.splitext(path_to_file)
-        if extension == '.json':
+        extension = get_extension(path_to_file)
+        if extension == 'json':
             return json.load(file)
-        elif extension == '.yaml' or '.yml':
+        elif extension == 'yaml' or 'yml':
             return yaml.load(file, Loader=yaml.FullLoader)
