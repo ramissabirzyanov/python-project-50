@@ -1,6 +1,7 @@
 import argparse
 import yaml
 import json
+import os
 
 
 def parsing():
@@ -15,9 +16,9 @@ def parsing():
 
 
 def read_file(path_to_file):
-    if path_to_file.endswith(('.yaml', '.yml')):
-        with open(path_to_file) as file:
-            return yaml.load(file, Loader=yaml.FullLoader)
-    elif path_to_file.endswith('.json'):
-        with open(path_to_file) as file:
+    with open(path_to_file) as file:
+        _, extension = os.path.splitext(path_to_file)
+        if extension == '.json':
             return json.load(file)
+        elif extension == '.yaml' or '.yml':
+            return yaml.load(file, Loader=yaml.FullLoader)
