@@ -8,7 +8,7 @@ This application shows difference between two files.
 The application supports json and yaml files.
 User can also set the output format of changes.
 Supported output formats:
-- stylish (detailed output, intalled be default)
+- stylish (detailed output, intalled by default)
 - plain (text output)
 - json (dictionary)
 
@@ -28,7 +28,7 @@ make package-install
 
 ### Hexlet tests and linter status:
 [![Actions Status](https://github.com/ramissabirzyanov/python-project-50/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/ramissabirzyanov/python-project-50/actions)
-[![Maintainability](https://api.codeclimate.com/v1/badges/cfc624823c584e4ec738/maintainability)](https://codeclimate.com/github/ramissabirzyanov/python-project-50/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/cfc624823c584e4ec738/maintainability)](https://codeclimate.com/github/ramissabirzyanov/piython-project-50/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/cfc624823c584e4ec738/test_coverage)](https://codeclimate.com/github/ramissabirzyanov/python-project-50/test_coverage)
 
 
