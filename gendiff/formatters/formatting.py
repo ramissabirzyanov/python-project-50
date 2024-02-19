@@ -3,7 +3,7 @@ from gendiff.formatters.plain import to_plain
 from gendiff.formatters.json_format import to_json
 
 
-def set_format(tree, format):
+def formatting(tree, format):
     if format == 'stylish':
         return to_stylish(tree)
     elif format == 'plain':
