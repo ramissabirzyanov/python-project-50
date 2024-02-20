@@ -1,19 +1,3 @@
-def get_children(d):
-    return d.get('children')
-
-
-def get_key(d):
-    return d.get('key')
-
-
-def get_change(d):
-    return d.get('change')
-
-
-def get_value(d):
-    return d.get('value')
-
-
 def make_indent(depth, amount_spaces=4):
     indent = " " * (depth * amount_spaces - 2)
     closing_indent = " " * (depth * amount_spaces - 4)
@@ -50,9 +34,9 @@ def to_stylish(node, depth=1):
     for item in node:
         indent = make_indent(depth)[0]
         closing_indent = make_indent(depth)[1]
-        change = get_change(item)
-        key = get_key(item)
-        value = get_value(item)
+        change = item.get('change')
+        key = item.get('key')
+        value = item.get('value')
         if change in CHANGES:
             if change == '-/+':
                 result_str1 = (f"{indent}{CHANGES.get(change)[0]}{key}: "
@@ -66,7 +50,7 @@ def to_stylish(node, depth=1):
                               f"{to_str(value, depth + 1)}")
                 result.append(result_str)
         if 'children' in item:
-            children = get_children(item)
+            children = item.get('children')
             result_str = to_stylish(children, depth + 1)
             result.append(f"{indent}{'  '}{key}: {result_str}")
         stylish = "\n".join(result)
