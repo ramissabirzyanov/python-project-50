@@ -1,5 +1,5 @@
-from gendiff.formatters.stylish import to_stylish
-from gendiff.formatters.plain import to_plain
+from gendiff.formatters.stylish_format import to_stylish
+from gendiff.formatters.plain_format import to_plain
 from gendiff.formatters.json_format import to_json
 
 
