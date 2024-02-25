@@ -4,7 +4,7 @@ from gendiff import generate_diff
 
 @pytest.fixture(params=[('stylish', open("tests/fixtures/expected_stylish.txt").read()),
                         ('plain', open("tests/fixtures/expected_plain.txt").read()),
-                        ('json', open("tests/fixtures/expected_json.txt").read())])
+                        ('json', open("tests/fixtures/expected_json.json").read())])
 def formats(request):
     return request.param
 
